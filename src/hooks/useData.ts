@@ -22,7 +22,7 @@ interface Category {
   imageURL: string;
 }
 
-interface Data {
+export interface Data {
   category: Category[];
   type: Type[];
 }

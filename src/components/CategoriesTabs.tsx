@@ -12,13 +12,17 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-import useData from '../hooks/useData';
+import { Data } from '../hooks/useData';
 import LikeButton from './LikeButton';
 import { BsCart } from 'react-icons/bs';
 
-const CategoriesTabs = () => {
-  const { data, loading, error } = useData();
+interface Props {
+  data: Data | null;
+  loading: boolean;
+  error: string | null;
+}
 
+const CategoriesTabs = ({ data, loading, error }: Props) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
   return (
@@ -53,7 +57,10 @@ const CategoriesTabs = () => {
                             <Button
                               colorScheme="blue"
                               onClick={() =>
-                                console.log('added to wishlist: ' + index)
+                                console.log(
+                                  'Added to cart: ' +
+                                    (index + type.category_id * 100)
+                                )
                               }
                             >
                               <BsCart />
