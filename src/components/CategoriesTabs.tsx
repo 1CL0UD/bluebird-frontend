@@ -9,10 +9,12 @@ import {
   Text,
   Image,
   HStack,
+  Button,
 } from '@chakra-ui/react';
 
 import useData from '../hooks/useData';
 import LikeButton from './LikeButton';
+import { BsCart } from 'react-icons/bs';
 
 const CategoriesTabs = () => {
   const { data, loading, error } = useData();
@@ -41,13 +43,23 @@ const CategoriesTabs = () => {
             (type) => (
               <TabPanel key={type.category_id}>
                 <HStack gap={4}>
-                  {type.car_type.map((car) => (
-                    <Card>
+                  {type.car_type.map((car, index) => (
+                    <Card key={index}>
                       <CardBody>
                         <Image src={car.imageURL} />
                         <HStack justifyContent={'space-between'}>
                           <Text>{car.vehicle}</Text>
-                          <LikeButton />
+                          <HStack>
+                            <Button
+                              colorScheme="blue"
+                              onClick={() =>
+                                console.log('added to wishlist: ' + index)
+                              }
+                            >
+                              <BsCart />
+                            </Button>
+                            <LikeButton />
+                          </HStack>
                         </HStack>
                       </CardBody>
                     </Card>

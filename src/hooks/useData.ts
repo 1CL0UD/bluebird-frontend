@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import apiClient from '../services/api-client';
+// import apiClient from '../services/api-client';
+import vehicleResponse from '../data/vehicle-response';
 
 // Define the interfaces for your data
 interface CarType {
@@ -28,7 +29,8 @@ interface Data {
 
 export const fetchData = async (): Promise<Data> => {
   try {
-    const response = await apiClient.get<Data>('/vehicles'); // Assuming your endpoint is '/'
+    // const response = await apiClient.get<Data>('/vehicles');
+    const response = { data: vehicleResponse, isLoading: false, error: null };
     return response.data;
   } catch (error) {
     throw new Error('Failed to fetch data');

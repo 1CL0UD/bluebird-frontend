@@ -1,8 +1,19 @@
-import React from 'react';
-import { BsHeart } from 'react-icons/bs';
+import { useState } from 'react';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
 
 const LikeButton = () => {
-  return <BsHeart />;
+  const [isLiked, setIsLiked] = useState(false);
+  const handleLikeClick = () => {
+    {
+      isLiked ? setIsLiked(false) : setIsLiked(true);
+    }
+  };
+
+  return (
+    <div onClick={handleLikeClick}>
+      {isLiked ? <BsHeartFill /> : <BsHeart />}
+    </div>
+  );
 };
 
 export default LikeButton;
