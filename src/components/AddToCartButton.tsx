@@ -1,6 +1,5 @@
 import { Button } from '@chakra-ui/react';
-import { useState } from 'react';
-import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import { BsCart } from 'react-icons/bs';
 import { CarType } from '../hooks/useData';
 
 interface Props {
@@ -10,8 +9,12 @@ interface Props {
   onAddToWishlist(wishlist: CarType): void;
 }
 
-const LikeButton = ({ vehicle, imageURL, price, onAddToWishlist }: Props) => {
-  const [isLiked, setIsLiked] = useState(false);
+const AddToCartButton = ({
+  vehicle,
+  imageURL,
+  price,
+  onAddToWishlist,
+}: Props) => {
   const onAddWishlistClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
 
@@ -21,13 +24,12 @@ const LikeButton = ({ vehicle, imageURL, price, onAddToWishlist }: Props) => {
       price: price,
     };
     onAddToWishlist(newWishlistCar);
-    setIsLiked(!isLiked);
   };
   return (
-    <Button flex="1" onClick={onAddWishlistClick}>
-      {isLiked ? <BsHeartFill /> : <BsHeart />}
+    <Button colorScheme="blue" onClick={onAddWishlistClick}>
+      <BsCart />
     </Button>
   );
 };
 
-export default LikeButton;
+export default AddToCartButton;

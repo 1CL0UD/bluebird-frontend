@@ -2,29 +2,28 @@ import { useEffect, useState } from 'react';
 // import apiClient from '../services/api-client';
 import vehicleResponse from '../data/vehicle-response';
 
-// Define the interfaces for your data
-interface CarType {
+export interface Data {
+  category: {
+    id: number;
+    name: string;
+    imageURL: string;
+  }[];
+  type: {
+    id: number;
+    category_id: number;
+    car_type: {
+      vehicle: string;
+      imageURL: string;
+      price: string;
+      description: string[];
+    }[];
+  }[];
+}
+
+export interface CarType {
   vehicle: string;
   imageURL: string;
   price: string;
-  description: string[];
-}
-
-interface Type {
-  id: number;
-  category_id: number;
-  car_type: CarType[];
-}
-
-interface Category {
-  id: number;
-  name: string;
-  imageURL: string;
-}
-
-interface Data {
-  category: Category[];
-  type: Type[];
 }
 
 export const fetchData = async (): Promise<Data> => {

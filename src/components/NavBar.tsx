@@ -1,16 +1,31 @@
-import { HStack, Image, Link } from '@chakra-ui/react';
+import { Button, HStack, Image } from '@chakra-ui/react';
 import logo from '../assets/Logo/Logo_Bluebird.png';
 import SearchInput from './SearchInput';
 
-const NavBar = () => {
+interface Props {
+  onSearch: React.Dispatch<React.SetStateAction<string>>;
+  onWishlistClick: () => void;
+  onBookingsClick: () => void;
+}
+
+const NavBar = ({ onSearch, onWishlistClick, onBookingsClick }: Props) => {
   return (
-    <HStack padding={4} justifyContent={'space-between'}>
+    <HStack
+      padding={4}
+      justifyContent={'space-between'}
+      boxShadow={'base'}
+      bg={'gray.800'}
+      position={'fixed'}
+      zIndex={200}
+      w={'100%'}
+    >
       <HStack gap={8}>
         <Image src={logo} height={'4rem'} />
-        <Link>Wishlist</Link>
-        <Link>My Book</Link>
+
+        <Button onClick={onWishlistClick}>Wishlist</Button>
+        <Button onClick={onBookingsClick}>My Bookings</Button>
       </HStack>
-      <SearchInput />
+      <SearchInput onSearch={onSearch} />
     </HStack>
   );
 };
