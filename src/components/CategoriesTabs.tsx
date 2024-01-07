@@ -30,6 +30,7 @@ interface Props {
   loading: boolean;
   error: string | null;
   isSearch: boolean;
+  setIsSearch: React.Dispatch<React.SetStateAction<boolean>>;
   filteredCarTypes: Data['type'];
 }
 
@@ -38,6 +39,7 @@ const CategoriesTabs = ({
   loading,
   error,
   isSearch,
+  setIsSearch,
   filteredCarTypes,
 }: Props) => {
   const [isDetail, setIsDetail] = useState(false);
@@ -54,6 +56,7 @@ const CategoriesTabs = ({
     {
       isDetail ? setIsDetail(false) : setIsDetail(true);
     }
+    setIsSearch(false);
     setNowVehicle(vehicle);
     setNowImageUrl(imageUrl);
     setPrice(price);
@@ -96,7 +99,9 @@ const CategoriesTabs = ({
                   paddingY={4}
                   justifyContent={'center'}
                   alignItems={'center'}
-                  onClick={() => console.log(car.vehicle + ' Clicked')}
+                  onClick={() =>
+                    showDetails(car.vehicle, car.imageURL, car.price)
+                  }
                 >
                   <Image
                     objectFit="cover"
@@ -156,7 +161,7 @@ const CategoriesTabs = ({
                                 vehicle={car.vehicle}
                                 imageURL={car.imageURL}
                                 price={car.price}
-                                onAddToWishlist={onAddToCart}
+                                onAddToCart={onAddToCart}
                               />
                               <LikeButton
                                 vehicle={car.vehicle}
