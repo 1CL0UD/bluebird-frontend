@@ -1,18 +1,32 @@
+import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import { CarType } from '../hooks/useData';
 
-const LikeButton = () => {
+interface Props {
+  vehicle: string;
+  imageURL: string;
+  price: string;
+  onAddToWishlist(wishlist: CarType): void;
+}
+
+const LikeButton = ({ vehicle, imageURL, price, onAddToWishlist }: Props) => {
   const [isLiked, setIsLiked] = useState(false);
-  const handleLikeClick = () => {
+  const onAddWishlistClick = () => {
+    const newWishlistCar = {
+      vehicle: vehicle,
+      imageURL: imageURL,
+      price: price,
+    };
+    onAddToWishlist(newWishlistCar);
     {
-      isLiked ? setIsLiked(false) : setIsLiked(true);
+      isLiked ? setIsLiked(false) : setIsLiked(false);
     }
   };
-
   return (
-    <div onClick={handleLikeClick}>
+    <Button flex="1" onClick={onAddWishlistClick}>
       {isLiked ? <BsHeartFill /> : <BsHeart />}
-    </div>
+    </Button>
   );
 };
 

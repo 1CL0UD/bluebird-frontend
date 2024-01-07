@@ -1,28 +1,13 @@
 import './App.css';
-import { Flex, Box, Text, Image } from '@chakra-ui/react';
+import { Flex, Box } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import CategoriesTabs from './components/CategoriesTabs';
 import Footer from './components/Footer';
-import useData from './hooks/useData';
+import useData, { Data } from './hooks/useData';
 import { useEffect, useState } from 'react';
+import VehicleDetail from './components/VehicleDetail';
+import Wishlist from './components/Wishlist';
 
-interface Data {
-  category: {
-    id: number;
-    name: string;
-    imageURL: string;
-  }[];
-  type: {
-    id: number;
-    category_id: number;
-    car_type: {
-      vehicle: string;
-      imageURL: string;
-      price: string;
-      description: string[];
-    }[];
-  }[];
-}
 function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isSearch, setIsSearch] = useState(false);
@@ -62,29 +47,18 @@ function App() {
       <Box>
         <NavBar onSearch={setSearchQuery} />
       </Box>
-      <Box flex="1">
-        {isSearch ? (
-          <Box>
-            {filteredCarTypes.map((type) => (
-              <Box key={type.id} w="100%" alignItems={'center'}>
-                {type.car_type.map((car) => (
-                  <Flex key={car.vehicle} alignItems={'center'}>
-                    <Image src={car.imageURL} alt={car.vehicle} />
-                    <Flex direction="column" ml={4}>
-                      <Text>{car.vehicle}</Text>
-                      <Text>{car.price}</Text>
-                      {car.description.map((desc, index) => (
-                        <Text key={index}>{desc}</Text>
-                      ))}
-                    </Flex>
-                  </Flex>
-                ))}
-              </Box>
-            ))}
-          </Box>
-        ) : (
-          <CategoriesTabs data={data} loading={loading} error={error} />
-        )}
+      <Box flex="1" mt={24}>
+        <CategoriesTabs
+          data={data}
+          loading={loading}
+          error={error}
+          isSearch={isSearch}
+          filteredCarTypes={filteredCarTypes}
+        />
+        <VehicleDetail />
+      </Box>
+      <Box>
+        <Wishlist />
       </Box>
       <Box>
         <Footer />
