@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import useData, { Data } from './hooks/useData';
 import { useEffect, useState } from 'react';
 import Wishlist from './components/Wishlist';
-import Cart from './components/Cart';
+import Cart from './components/Booking';
 
 function App() {
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -24,6 +24,17 @@ function App() {
   const handleBookingsClick = () => {
     setWishlistActive(false);
     setBookingsActive(!bookingsActive);
+  };
+
+  const handleBackButton = () => {
+    setWishlistActive(false);
+    setBookingsActive(false);
+  };
+
+  const handleIsSearchChange = (
+    value: boolean | ((prevState: boolean) => boolean)
+  ) => {
+    setIsSearch(value);
   };
 
   useEffect(() => {
@@ -64,15 +75,16 @@ function App() {
       </Box>
       <Box flex="1" mt={24}>
         {wishlistActive && !bookingsActive ? (
-          <Wishlist />
+          <Wishlist onWishlistClick={handleBackButton} />
         ) : bookingsActive && !wishlistActive ? (
-          <Cart />
+          <Cart onBookingClick={handleBackButton} />
         ) : (
           <CategoriesTabs
             data={data}
             loading={loading}
             error={error}
             isSearch={isSearch}
+            setIsSearch={handleIsSearchChange}
             filteredCarTypes={filteredCarTypes}
           />
         )}

@@ -6,15 +6,10 @@ interface Props {
   vehicle: string;
   imageURL: string;
   price: string;
-  onAddToWishlist(wishlist: CarType): void;
+  onAddToCart(wishlist: CarType): void;
 }
 
-const AddToCartButton = ({
-  vehicle,
-  imageURL,
-  price,
-  onAddToWishlist,
-}: Props) => {
+const AddToCartButton = ({ vehicle, imageURL, price, onAddToCart }: Props) => {
   const onAddWishlistClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
 
@@ -23,7 +18,7 @@ const AddToCartButton = ({
       imageURL: imageURL,
       price: price,
     };
-    onAddToWishlist(newWishlistCar);
+    onAddToCart(newWishlistCar);
   };
   return (
     <Button colorScheme="blue" onClick={onAddWishlistClick}>

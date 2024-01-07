@@ -13,6 +13,7 @@ import LikeButton from './LikeButton';
 import { addWishlist } from '../actions/actions';
 import { useDispatch } from 'react-redux';
 import { CarType } from '../hooks/useData';
+import { useState } from 'react';
 
 interface Props {
   vehicle: string;
@@ -21,10 +22,19 @@ interface Props {
 }
 
 const VehicleDetail = ({ vehicle, imageURL, price }: Props) => {
+  const [urlCopied, setUrlCopied] = useState(false);
+
   const dispatch = useDispatch();
 
   const onAddWishlist = (wishlist: CarType) => {
     dispatch(addWishlist(wishlist));
+  };
+  const handleShareClick = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setUrlCopied(true);
+    setTimeout(() => {
+      setUrlCopied(false);
+    }, 3000);
   };
   return (
     <Grid
@@ -36,7 +46,9 @@ const VehicleDetail = ({ vehicle, imageURL, price }: Props) => {
       <GridItem>
         <Image src={imageURL} />
         <Flex direction={'row'} alignItems={'center'} gap={4}>
-          <Button flex="1">Share</Button>
+          <Button flex="1" onClick={handleShareClick}>
+            {urlCopied ? 'URL Copied!' : 'Share'}
+          </Button>
           <LikeButton
             vehicle={vehicle}
             imageURL={imageURL}

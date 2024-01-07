@@ -4,11 +4,11 @@ export interface CartState {
   cart: CarType[];
 }
 
-const initialState = { cart: [] };
+const initialState: CartState = { cart: [] };
 
 export type CartAction = { type: 'ADD_CART'; payload: CarType };
 
-export const wishlistReducer = (
+export const cartReducer = (
   state: CartState = initialState,
   action: CartAction
 ) => {

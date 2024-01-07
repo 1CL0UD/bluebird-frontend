@@ -1,4 +1,7 @@
-import { createStore } from 'redux';
-import { wishlistReducer } from './reducers/wishlistReducer';
+import { createStore } from '@reduxjs/toolkit';
+// import { wishlistReducer } from './reducers/wishlistReducer';
+import allReducers from './reducers/allReducers';
 
-export const store = createStore(wishlistReducer);
+const store = createStore(allReducers);
+
+export default store;
