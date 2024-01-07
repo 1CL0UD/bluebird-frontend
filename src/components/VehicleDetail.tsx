@@ -2,35 +2,62 @@ import {
   Button,
   Card,
   CardBody,
+  CardFooter,
   Flex,
   Grid,
   GridItem,
   Image,
   Text,
 } from '@chakra-ui/react';
-import logo from '../assets/Logo/Logo_Bluebird.png';
 import LikeButton from './LikeButton';
+import { addWishlist } from '../actions/actions';
+import { useDispatch } from 'react-redux';
+import { CarType } from '../hooks/useData';
 
-const VehicleDetail = () => {
+interface Props {
+  vehicle: string;
+  imageURL: string;
+  price: string;
+}
+
+const VehicleDetail = ({ vehicle, imageURL, price }: Props) => {
+  const dispatch = useDispatch();
+
+  const onAddWishlist = (wishlist: CarType) => {
+    dispatch(addWishlist(wishlist));
+  };
   return (
     <Grid
       gridTemplateColumns={'0.4fr 1fr'}
       gap={6}
-      paddingX={4}
+      paddingX={8}
       alignItems={'center'}
     >
       <GridItem>
-        <Image src={logo} />
+        <Image src={imageURL} />
         <Flex direction={'row'} alignItems={'center'} gap={4}>
           <Button flex="1">Share</Button>
-          <LikeButton />
+          <LikeButton
+            vehicle={vehicle}
+            imageURL={imageURL}
+            price={price}
+            onAddToWishlist={onAddWishlist}
+          />
         </Flex>
       </GridItem>
       <GridItem>
-        <Card>
+        <Card h={'100%'}>
           <CardBody>
-            <Text>test</Text>
+            <Text fontSize={'3xl'}>{vehicle}</Text>
           </CardBody>
+          <CardFooter gap={8}>
+            <Button flex="1" fontSize={'xl'}>
+              {price}
+            </Button>
+            <Button flex="1" fontSize={'xl'}>
+              Book
+            </Button>
+          </CardFooter>
         </Card>
       </GridItem>
     </Grid>

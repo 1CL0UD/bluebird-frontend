@@ -13,13 +13,17 @@ import {
   Box,
   Stack,
   Heading,
+  Button,
 } from '@chakra-ui/react';
 
 import { CarType, Data } from '../hooks/useData';
 import LikeButton from './LikeButton';
 import AddToCartButton from './AddToCartButton';
 import { useDispatch } from 'react-redux';
-import { addWishlist } from '../actions/actions';
+import { addWishlist, addCart } from '../actions/actions';
+import { SetStateAction, useState } from 'react';
+import VehicleDetail from './VehicleDetail';
+import { BsArrowLeft } from 'react-icons/bs';
 
 interface Props {
   data: Data | null;
@@ -36,10 +40,33 @@ const CategoriesTabs = ({
   isSearch,
   filteredCarTypes,
 }: Props) => {
+  const [isDetail, setIsDetail] = useState(false);
+
+  const [nowVehicle, setNowVehicle] = useState('');
+  const [nowImageUrl, setNowImageUrl] = useState('');
+  const [nowPrice, setPrice] = useState('');
+
+  const showDetails = (
+    vehicle: SetStateAction<string>,
+    imageUrl: SetStateAction<string>,
+    price: SetStateAction<string>
+  ) => {
+    {
+      isDetail ? setIsDetail(false) : setIsDetail(true);
+    }
+    setNowVehicle(vehicle);
+    setNowImageUrl(imageUrl);
+    setPrice(price);
+  };
+
   const dispatch = useDispatch();
 
   const onAddWishlist = (wishlist: CarType) => {
     dispatch(addWishlist(wishlist));
+  };
+
+  const onAddToCart = (cart: CarType) => {
+    dispatch(addCart(cart));
   };
 
   if (loading) return <p>Loading...</p>;
@@ -92,6 +119,17 @@ const CategoriesTabs = ({
             </VStack>
           ))}
         </Box>
+      ) : isDetail ? (
+        <>
+          <Button onClick={() => showDetails('', '', '')} ml={8} my={8}>
+            <BsArrowLeft />
+          </Button>
+          <VehicleDetail
+            vehicle={nowVehicle}
+            imageURL={nowImageUrl}
+            price={nowPrice}
+          />
+        </>
       ) : (
         <TabPanels>
           {data?.type?.[0] &&
@@ -103,7 +141,12 @@ const CategoriesTabs = ({
                 <TabPanel key={type.category_id}>
                   <HStack gap={4}>
                     {type.car_type.map((car, index) => (
-                      <Card key={index}>
+                      <Card
+                        key={index}
+                        onClick={() =>
+                          showDetails(car.vehicle, car.imageURL, car.price)
+                        }
+                      >
                         <CardBody>
                           <Image src={car.imageURL} />
                           <HStack justifyContent={'space-between'}>
@@ -113,6 +156,7 @@ const CategoriesTabs = ({
                                 vehicle={car.vehicle}
                                 imageURL={car.imageURL}
                                 price={car.price}
+                                onAddToWishlist={onAddToCart}
                               />
                               <LikeButton
                                 vehicle={car.vehicle}

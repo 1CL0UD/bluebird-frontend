@@ -1,36 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { CarType } from '../hooks/useData';
 
-export interface CartItem {
-  vehicle: string;
-  imageURL: string;
-  price: string;
+export interface CartState {
+  cart: CarType[];
 }
 
-interface CartState {
-  items: CartItem[];
-}
+const initialState = { cart: [] };
 
-const initialState: CartState = {
-  items: [],
+export type CartAction = { type: 'ADD_CART'; payload: CarType };
+
+export const wishlistReducer = (
+  state: CartState = initialState,
+  action: CartAction
+) => {
+  switch (action.type) {
+    case 'ADD_CART': {
+      return { ...state, cart: [...state.cart, action.payload] };
+    }
+    default: {
+      return state;
+    }
+  }
 };
-
-export const carSliceCart = createSlice({
-  name: 'cart',
-  initialState: initialState,
-  reducers: {
-    addCarCart: (state, action) => {
-      state.items.push(action.payload);
-    },
-    removeCarCart: (state, action) => {
-      state.items = state.items.filter(
-        (item) => item.vehicle !== action.payload.vehicle
-      );
-    },
-  },
-});
-
-export const { addCarCart, removeCarCart } = carSliceCart.actions;
-
-export const displayWishlist = (state: CartItem) => state.vehicle;
-
-export default carSliceCart.reducer;

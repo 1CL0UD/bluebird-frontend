@@ -12,16 +12,16 @@ interface Props {
 
 const LikeButton = ({ vehicle, imageURL, price, onAddToWishlist }: Props) => {
   const [isLiked, setIsLiked] = useState(false);
-  const onAddWishlistClick = () => {
+  const onAddWishlistClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+
     const newWishlistCar = {
       vehicle: vehicle,
       imageURL: imageURL,
       price: price,
     };
     onAddToWishlist(newWishlistCar);
-    {
-      isLiked ? setIsLiked(false) : setIsLiked(false);
-    }
+    setIsLiked(!isLiked);
   };
   return (
     <Button flex="1" onClick={onAddWishlistClick}>

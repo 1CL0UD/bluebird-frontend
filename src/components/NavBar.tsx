@@ -4,9 +4,11 @@ import SearchInput from './SearchInput';
 
 interface Props {
   onSearch: React.Dispatch<React.SetStateAction<string>>;
+  onWishlistClick: () => void;
+  onBookingsClick: () => void;
 }
 
-const NavBar = ({ onSearch }: Props) => {
+const NavBar = ({ onSearch, onWishlistClick, onBookingsClick }: Props) => {
   return (
     <HStack
       padding={4}
@@ -20,8 +22,8 @@ const NavBar = ({ onSearch }: Props) => {
       <HStack gap={8}>
         <Image src={logo} height={'4rem'} />
 
-        <Button>Wishlist</Button>
-        <Button>My Bookings</Button>
+        <Button onClick={onWishlistClick}>Wishlist</Button>
+        <Button onClick={onBookingsClick}>My Bookings</Button>
       </HStack>
       <SearchInput onSearch={onSearch} />
     </HStack>
