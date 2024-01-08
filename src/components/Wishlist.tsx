@@ -1,16 +1,20 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../reducers/rootReducer';
 import {
   VStack,
   Button,
-  Grid,
-  GridItem,
   Card,
   CardBody,
   Text,
   Image,
+  CardFooter,
+  Heading,
+  Stack,
+  HStack,
 } from '@chakra-ui/react';
 import { BsArrowLeft } from 'react-icons/bs';
+import DeleteButton from './DeleteButton';
+import { deleteWishlist } from '../actions/actions';
 
 interface Props {
   onWishlistClick: () => void;
@@ -18,32 +22,54 @@ interface Props {
 
 const Wishlist = ({ onWishlistClick }: Props) => {
   const wishlists = useSelector((state: RootState) => state.wishlist.wishlist);
-
+  const dispatch = useDispatch();
+  const handleDelete = (vehicle: string) => {
+    dispatch(deleteWishlist(vehicle));
+  };
   return (
     <>
       <VStack padding={8}>
-        <Button onClick={onWishlistClick} alignSelf={'start'} mb={4}>
-          <BsArrowLeft />
-        </Button>
-        <Grid templateColumns="repeat(4, 1fr)" gap={8}>
-          {wishlists.length === 0 ? (
-            <GridItem colSpan={4}>
-              <Text>No Wishlist Added Yet</Text>
-            </GridItem>
-          ) : (
-            wishlists.map((item, index) => (
-              <GridItem key={index} colSpan={1}>
-                <Card>
+        <HStack w={'100%'}>
+          <Button onClick={onWishlistClick} mr={4}>
+            <BsArrowLeft />
+          </Button>
+          <Text fontSize="3xl">Your Wishlist</Text>
+        </HStack>
+        {wishlists.length === 0 ? (
+          <Text>No Wishlist Added Yet</Text>
+        ) : (
+          wishlists.map((item, index) => (
+            <>
+              <Card
+                key={index}
+                direction={{ base: 'column', sm: 'row' }}
+                overflow="hidden"
+                padding={8}
+                alignItems={'center'}
+              >
+                <Image
+                  src={item.imageURL}
+                  alt={item.vehicle}
+                  objectFit="cover"
+                  maxW={{ base: '100%', sm: '200px' }}
+                />
+
+                <Stack>
                   <CardBody>
-                    <Image src={item.imageURL} alt={item.vehicle} />
-                    <Text>{item.vehicle}</Text>
+                    <Heading size="md">{item.vehicle}</Heading>
                     <Text>{item.price}</Text>
                   </CardBody>
-                </Card>
-              </GridItem>
-            ))
-          )}
-        </Grid>
+                  <CardFooter>
+                    <DeleteButton
+                      vehicle={item.vehicle}
+                      onDelete={handleDelete}
+                    />
+                  </CardFooter>
+                </Stack>
+              </Card>
+            </>
+          ))
+        )}
       </VStack>
     </>
   );
