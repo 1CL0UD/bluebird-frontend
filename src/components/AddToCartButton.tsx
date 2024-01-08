@@ -21,7 +21,7 @@ const AddToCartButton = ({ vehicle, imageURL, price, onAddToCart }: Props) => {
     onAddToCart(newWishlistCar);
   };
   return (
-    <Button colorScheme="blue" onClick={onAddWishlistClick}>
+    <Button flex={'1'} colorScheme="blue" onClick={onAddWishlistClick}>
       <BsCart />
     </Button>
   );

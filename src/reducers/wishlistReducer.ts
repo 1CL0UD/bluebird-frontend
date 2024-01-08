@@ -15,7 +15,16 @@ export const wishlistReducer = (
 ) => {
   switch (action.type) {
     case 'ADD_WISHLIST': {
-      return { ...state, wishlist: [...state.wishlist, action.payload] };
+      const existingItem = state.wishlist.find(
+        (vehicle) => vehicle.vehicle === action.payload.vehicle
+      );
+
+      if (!existingItem) {
+        return { ...state, wishlist: [...state.wishlist, action.payload] };
+      } else {
+        window.alert(`This Vehicle is already on your wishlist.`);
+        return state;
+      }
     }
     case 'DELETE_WISHLIST': {
       const updatedWishlist = state.wishlist.filter(

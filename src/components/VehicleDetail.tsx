@@ -10,10 +10,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import LikeButton from './LikeButton';
-import { addWishlist } from '../actions/actions';
+import { addCart, addWishlist } from '../actions/actions';
 import { useDispatch } from 'react-redux';
 import { CarType } from '../hooks/useData';
 import { useState } from 'react';
+import AddToCartButton from './AddToCartButton';
 
 interface Props {
   vehicle: string;
@@ -28,6 +29,10 @@ const VehicleDetail = ({ vehicle, imageURL, price }: Props) => {
 
   const onAddWishlist = (wishlist: CarType) => {
     dispatch(addWishlist(wishlist));
+  };
+
+  const onAddToCart = (cart: CarType) => {
+    dispatch(addCart(cart));
   };
   const handleShareClick = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -66,9 +71,12 @@ const VehicleDetail = ({ vehicle, imageURL, price }: Props) => {
             <Button flex="1" fontSize={'xl'}>
               {price}
             </Button>
-            <Button flex="1" fontSize={'xl'}>
-              Book
-            </Button>
+            <AddToCartButton
+              vehicle={vehicle}
+              imageURL={imageURL}
+              price={price}
+              onAddToCart={onAddToCart}
+            />
           </CardFooter>
         </Card>
       </GridItem>
